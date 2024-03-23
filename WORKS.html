@@ -1,0 +1,42 @@
+<html>
+<head>
+</head>
+<body>
+
+  <div id="main" class="main"></div>
+
+  <script type="module">
+    import * as duckdb from 'https://cdn.jsdelivr.net/npm/@duckdb/duckdb-wasm@1.28.0/+esm' 
+    import * as arrow from 'https://cdn.jsdelivr.net/npm/arrow-js@0.1.9/dist/arrow-js-0.1.9.min.js'   
+
+    const JSDELIVR_BUNDLES = duckdb.getJsDelivrBundles();
+    // Select a bundle based on browser checks
+    const bundle = await duckdb.selectBundle(JSDELIVR_BUNDLES);
+
+    const worker_url = URL.createObjectURL(
+      new Blob([`importScripts("${bundle.mainWorker}");`], {type: 'text/javascript'})
+    );
+
+    // Instantiate the asynchronus version of DuckDB-wasm
+    const worker = new Worker(worker_url);
+    const logger = new duckdb.ConsoleLogger();
+    const db = new duckdb.AsyncDuckDB(logger, worker);
+    await db.instantiate(bundle.mainModule, bundle.pthreadWorker);
+
+    await db.open({path: `http://localhost:8001/diff_with_201_top_cols.db`});
+    const conn = await db.connect();
+
+    const raw_result = await conn.query(`SELECT * FROM sample_0 WHERE __SAMPLE_ID__ = '{"id":13008014}' LIMIT 1`);
+    const result = raw_result.get(0).toJSON() ;
+
+    let txt = "";
+    for (let x in result) {
+      txt += x + " : " + result[x] + "<br>";
+    };
+
+    var main = document.getElementById('main');
+    main.innerHTML = txt;
+  </script>
+
+</body>
+</html>

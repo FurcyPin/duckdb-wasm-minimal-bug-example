@@ -1,0 +1,12 @@
+[tool.poetry]
+name = "minimal-duckdb-wasm"
+version = "0.0.1"
+description = "Exhibit bugs in duckdb-wasm"
+authors = ["Furcy Pin <pin.furcy@gmail.com>"]
+readme = "README.md"
+# homepage = "https://github.com/FurcyPin/data-diff-viewer"
+# repository = "https://github.com/FurcyPin/data-diff-viewer"
+
+[tool.poetry.dependencies]
+python = ">=3.8.1,<3.12"
+duckdb = "~0.10.1"
