@@ -23,7 +23,7 @@
     const db = new duckdb.AsyncDuckDB(logger, worker);
     await db.instantiate(bundle.mainModule, bundle.pthreadWorker);
 
-    await db.open({path: `http://localhost:8001/diff_with_201_top_cols.db`});
+    await db.open({path: `http://localhost:8001/diff_without_index.db`});
     const conn = await db.connect();
 
     const raw_result = await conn.query(`SELECT * FROM sample_0 WHERE __SAMPLE_ID__ = '{"id":13008014}' LIMIT 1`);

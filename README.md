@@ -17,12 +17,19 @@ Uncaught RuntimeError: null function or function signature mismatch
 
 The only difference between `WORKS.html` and `DOES_NOT_WORK.html` is that
 they load different files. 
-- `WORKS.html` loads `diff_with_201_top_cols.db`
-- `DOES_NOT_WORK.html` loads `diff_with_1000_top_cols.db`
+- `WORKS.html` loads `diff_without_index.db`
+- `DOES_NOT_WORK.html` loads `diff_with_index.db`
 
 The two files were generated exactly the same way in Python, the only difference
-is that `diff_with_1000_top_cols.db` contains more columns.
+is that when generating `diff_with_index.db`, I created an index on the table sample_0 
+with the following query (using the Python API):
 
+
+```
+conn.execute("""
+    CREATE UNIQUE INDEX sample_0_idx ON sample_0 (__SAMPLE_ID__);
+""")
+```
 
 ## Investigation
 
@@ -36,8 +43,8 @@ To use it with Poetry, just run:
 
 - `poetry env use 3.8` 
 - `poetry update` 
-- `poetry run python WORKS.py` works (and loads `diff_with_201_top_cols.db`)
-- `poetry run python WORKS_TOO.py` works too (and loads `diff_with_1000_top_cols.db`)
+- `poetry run python WORKS.py` works (and loads `diff_without_index.db`)
+- `poetry run python WORKS_TOO.py` works too (and loads `diff_with_index.db`)
 
 
 ## About the data
