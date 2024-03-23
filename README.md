@@ -38,3 +38,16 @@ To use it with Poetry, just run:
 - `poetry update` 
 - `poetry run python WORKS.py` works (and loads `diff_with_201_top_cols.db`)
 - `poetry run python WORKS_TOO.py` works too (and loads `diff_with_1000_top_cols.db`)
+
+
+## About the data
+
+Nothing to worry about: the data files were generated from a French OpenData dataset:
+
+- https://www.prix-carburants.gouv.fr/rubrique/opendata/
+- https://data.economie.gouv.fr/explore/dataset/prix-des-carburants-en-france-flux-instantane-v2/export/
+
+I'm using them to showcase an example for my data-diff tool which use duckdb-wasm to
+build the html report:
+https://furcypin.github.io/spark-frame/use_cases/comparing_dataframes/#french-gas-price
+
